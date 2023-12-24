@@ -11,6 +11,8 @@ import Card from './components/Card.vue'
 
 <style lang="css" scoped>
 .container {
+  display: flex;
+  justify-content: center;
 }
 .copyright {
   font-weight: 300;
