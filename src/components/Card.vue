@@ -9,14 +9,6 @@ defineProps<{
   <div class="card__container">
     <h1 class="card__title">{{ msg }}</h1>
     <div class="card__wrapper">
-      <svg
-        width="162"
-        height="116"
-        viewBox="0 0 162 116"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        class="card-box__adventure-icon"
-      ></svg>
       <button type="button" value="" class="card__button variant">
         <span class="answer__option">A</span>
         Button
