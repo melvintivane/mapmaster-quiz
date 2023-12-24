@@ -7,8 +7,10 @@ defineProps<{
 
 <template>
   <div class="card__container">
+    <img src="@/assets/adventure-icon.svg" alt="Teste" class="img" />
     <h1 class="card__title">{{ msg }}</h1>
     <div class="card__wrapper">
+      <h3 class="card__question">{{ question }}</h3>
       <button type="button" value="" class="card__button variant">
         <span class="answer__option">A</span>
         Button
@@ -31,6 +33,16 @@ defineProps<{
 </template>
 
 <style scoped>
+.card__container {
+  position: relative;
+}
+
+.img {
+  position: absolute;
+  right: 0;
+  top: -1.8rem;
+}
+
 .card__title {
   font-weight: 700;
 }
@@ -46,7 +58,7 @@ defineProps<{
   font-size: 24px;
   color: var(--color-title-question);
   font-weight: 700;
-  margin-bottom: 3.2rem;
+  margin: 2.2rem 0rem;
 }
 
 .card__button {
