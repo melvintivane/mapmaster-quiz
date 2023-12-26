@@ -64,6 +64,15 @@ const fetchData = async () => {
   }
 }
 
+const shuffleArray = (array: any[]) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    const temp = array[i]
+    array[i] = array[j]
+    array[j] = temp
+  }
+}
+
 const selectAnswer = (answer: any) => {
   const correct = answer.correct
 
@@ -105,10 +114,12 @@ const restartGame = () => {
   isGameEnded.value = false
   showNextButton.value = false
   currentQuestionIndex.value = 0
+  shuffleArray(questions.value)
 }
 
 onMounted(() => {
   fetchData()
+  shuffleArray(questions.value)
   console.log(countriesData)
 })
 </script>
