@@ -151,6 +151,7 @@ const showNextButton = ref(false)
 const currentQuestionIndex = ref(0)
 const currentQuestion = computed(() => questions.value[currentQuestionIndex.value])
 const countStore = useCounterStore()
+const selectedAnswer = ref(null)
 
 const countriesData = ref(null)
 
@@ -180,6 +181,8 @@ const selectAnswer = (answer: any) => {
     isGameEnded.value = !isGameEnded.value
     return
   }
+
+  selectedAnswer.value = answer
 
   if (questions.value.length > currentQuestionIndex.value + 1) {
     countStore.increment()
@@ -237,6 +240,7 @@ onMounted(() => {
         type="button"
         value=""
         class="card__button variant"
+        :class="{ answer__correct: answer === selectedAnswer }"
         v-for="(answer, index) in currentQuestion.answers"
         @click="selectAnswer(answer)"
         :key="index"
