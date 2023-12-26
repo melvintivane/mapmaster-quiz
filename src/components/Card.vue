@@ -101,6 +101,12 @@ const nextQuestion = () => {
   setNextQuestion()
 }
 
+const restartGame = () => {
+  isGameEnded.value = false
+  showNextButton.value = false
+  currentQuestionIndex.value = 0
+}
+
 onMounted(() => {
   fetchData()
   console.log(countriesData)
@@ -132,7 +138,7 @@ onMounted(() => {
       <img src="@/assets/congrats-icon.svg" alt="Congrats Icon" class="congrats" />
       <h1 class="temp">Results</h1>
       <p>You got 0 correct answers.</p>
-      <button class="btn-try__again">Try Again</button>
+      <button class="btn-try__again" @click="restartGame">Try Again</button>
     </div>
   </div>
 </template>
@@ -156,7 +162,7 @@ onMounted(() => {
 .card__wrapper {
   display: flex;
   flex-direction: column;
-  width: 31rem;
+  width: 28rem;
   background-color: #fff;
   border-radius: 18px;
   padding: 20px 35px;
