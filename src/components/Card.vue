@@ -1,38 +1,12 @@
-<template>
-  <div>
-    <div v-if="!isGameEnded">
-      <div class="card__container">
-        <img src="@/assets/adventure-icon.svg" alt="Adventure Icon" class="img" />
-        <h1 class="card__title">{{ msg }}</h1>
-        <div class="card__wrapper">
-          <h3 class="card__question">{{ currentQuestion.question }}</h3>
-          <button
-            v-for="(answer, index) in currentQuestion.answers"
-            :key="index"
-            @click="selectAnswer(answer)"
-            :class="{
-              card__button: true,
-              variant: index !== correctAnswerIndex,
-              answer__correct: index === correctAnswerIndex,
-              answer__wrong: selectedAnswerIndex === index
-            }"
-          >
-            <span class="answer__option">{{ String.fromCharCode(65 + index) }}</span>
-            {{ answer.text }}
-          </button>
-          <button v-if="showNextButton" @click="nextQuestion" class="btn-next">Next</button>
-        </div>
-      </div>
-    </div>
-    <div v-if="isGameEnded">
-      <h3 class="game-over">Game Over!</h3>
-      <button @click="restartGame" class="btn-try__again">Try Again</button>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import axios from 'axios'
+import { ref, onMounted, computed } from 'vue'
+
+defineProps<{
+  msg: string
+  question: string
+}>()
+
 const questions = ref([
   {
     question: 'What is the capital of Brazil?',
@@ -72,25 +46,45 @@ const questions = ref([
   }
 ])
 
-const isGameStarted = ref(false)
 const isGameEnded = ref(false)
 const showNextButton = ref(false)
 const currentQuestionIndex = ref(0)
 const currentQuestion = computed(() => questions.value[currentQuestionIndex.value])
 const isGameOver = ref(false)
 
-const startGame = () => {
-  isGameStarted.value = true
-  isGameEnded.value = false
-  showNextButton.value = false
-  currentQuestionIndex.value = 0
+const countriesData = ref(null)
+
+const fetchData = async () => {
+  try {
+    const apiUrl = 'https://restcountries.com/v3.1/independent?status=true&fields=languages,capital'
+    const response = await axios.get(apiUrl)
+    countriesData.value = response.data
+  } catch (error) {
+    console.error('Erro ao buscar dados da API:', error)
+  }
 }
 
-const restartGame = () => {
-  isGameStarted.value = false
-  isGameEnded.value = false
+const selectAnswer = (answer: any) => {
+  const correct = answer.correct
+
+  if (!correct) {
+    isGameEnded.value = !isGameEnded.value
+    return
+  }
+
+  if (questions.value.length > currentQuestionIndex.value + 1) {
+    showNextButton.value = true
+  } else {
+    isGameEnded.value = true
+  }
+}
+
+const showQuestion = () => {
   showNextButton.value = false
-  currentQuestionIndex.value = 0
+}
+
+const resetState = () => {
+  showNextButton.value = false
 }
 
 const setNextQuestion = () => {
@@ -102,55 +96,48 @@ const setNextQuestion = () => {
   }
 }
 
-const showQuestion = () => {
-  showNextButton.value = false
-}
-
-const resetState = () => {
-  clearStatusClass(document.body)
-  showNextButton.value = false
-}
-
-const selectAnswer = (answer: any) => {
-  const correct = answer.correct
-  setStatusClass(document.body, correct)
-  if (!correct) {
-    isGameOver.value = true
-    return
-  }
-
-  if (questions.value.length > currentQuestionIndex.value + 1) {
-    showNextButton.value = true
-  } else {
-    isGameEnded.value = true
-  }
-}
-
-const setStatusClass = (element: any, correct: any) => {
-  clearStatusClass(element)
-  if (correct) {
-    element.classList.add('correct')
-  } else {
-    element.classList.add('wrong')
-  }
-}
-
-const clearStatusClass = (element: any) => {
-  element.classList.remove('correct')
-  element.classList.remove('wrong')
-}
-
 const nextQuestion = () => {
   currentQuestionIndex.value++
   setNextQuestion()
 }
+
+onMounted(() => {
+  fetchData()
+  console.log(countriesData)
+})
 </script>
 
-<style scoped>
-.card__container[style*='display: none'] {
-  display: none;
-}
+<template>
+  <div class="card__container">
+    <img src="@/assets/adventure-icon.svg" alt="Adventure Icon" class="img" />
+    <h1 class="card__title">{{ msg }}</h1>
 
+    <div v-show="!isGameEnded" class="card__wrapper">
+      <h3 class="card__question">{{ currentQuestion.question }}</h3>
+      <button
+        type="button"
+        value=""
+        class="card__button variant"
+        v-for="(answer, index) in currentQuestion.answers"
+        @click="selectAnswer(answer)"
+        :key="index"
+      >
+        <span class="answer__option">{{ String.fromCharCode(65 + index) }}</span>
+        {{ answer.text }}
+      </button>
+      <button v-if="showNextButton" @click="nextQuestion" class="btn-next">Next</button>
+    </div>
+
+    <div v-show="isGameEnded" class="endgame__wrapper">
+      <img src="@/assets/congrats-icon.svg" alt="Congrats Icon" class="congrats" />
+      <h1 class="temp">Results</h1>
+      <p>You got 0 correct answers.</p>
+      <button class="btn-try__again">Try Again</button>
+    </div>
+  </div>
+</template>
+
+<style scoped>
 .card__container {
   position: relative;
 }
@@ -158,7 +145,7 @@ const nextQuestion = () => {
 .img {
   position: absolute;
   right: 0;
-  top: -70px;
+  top: -1.3rem;
 }
 
 .card__title {
@@ -175,7 +162,16 @@ const nextQuestion = () => {
   padding: 20px 35px;
 }
 
-.h1 {
+.endgame__wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 31rem;
+  background-color: #fff;
+  border-radius: 18px;
+  padding: 20px 35px;
+}
+
+.temp {
   font-size: 4.8rem;
   font-weight: 700;
   text-align: center;
@@ -216,7 +212,7 @@ p {
   border-color: transparent;
 }
 
-.answer__correct {
+.answer__correct:hover {
   color: var(--color-white);
   background-color: #60bf88;
   border-color: transparent;
@@ -257,12 +253,5 @@ p {
   font-size: 1.4rem;
   font-weight: 500;
   margin-right: 4rem;
-}
-
-.game-over {
-  font-size: 2rem;
-  color: #ff0000;
-  text-align: center;
-  margin-bottom: 20px;
 }
 </style>
