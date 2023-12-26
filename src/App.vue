@@ -17,6 +17,10 @@ import Card from './components/Card.vue'
   display: flex;
   justify-content: center;
 }
+
+a {
+  color: var(--color-white);
+}
 .copyright {
   font-weight: 300;
   position: absolute;
