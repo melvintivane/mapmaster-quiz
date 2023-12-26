@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useCounterStore } from '@/stores/counter'
 import axios from 'axios'
 import { ref, onMounted, computed } from 'vue'
 
@@ -149,7 +150,7 @@ const isGameEnded = ref(false)
 const showNextButton = ref(false)
 const currentQuestionIndex = ref(0)
 const currentQuestion = computed(() => questions.value[currentQuestionIndex.value])
-const isGameOver = ref(false)
+const countStore = useCounterStore()
 
 const countriesData = ref(null)
 
@@ -181,6 +182,7 @@ const selectAnswer = (answer: any) => {
   }
 
   if (questions.value.length > currentQuestionIndex.value + 1) {
+    countStore.increment()
     showNextButton.value = true
   } else {
     isGameEnded.value = true
@@ -210,6 +212,7 @@ const nextQuestion = () => {
 }
 
 const restartGame = () => {
+  countStore.reset()
   isGameEnded.value = false
   showNextButton.value = false
   currentQuestionIndex.value = 0
@@ -247,7 +250,7 @@ onMounted(() => {
     <div v-show="isGameEnded" class="endgame__wrapper">
       <img src="@/assets/congrats-icon.svg" alt="Congrats Icon" class="congrats" />
       <h1 class="temp">Results</h1>
-      <p>You got 0 correct answers.</p>
+      <p>You got {{ countStore.count }} correct answers.</p>
       <button class="btn-try__again" @click="restartGame">Try Again</button>
     </div>
   </div>
