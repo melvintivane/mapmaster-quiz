@@ -18,30 +18,129 @@ const questions = ref([
     ]
   },
   {
+    question: 'What is the currency of Japan?',
+    answers: [
+      { text: 'Yen', correct: true },
+      { text: 'Dollar', correct: false },
+      { text: 'Euro', correct: false },
+      { text: 'Pound', correct: false }
+    ]
+  },
+  {
     question: 'What is the capital of France?',
     answers: [
       { text: 'Paris', correct: true },
       { text: 'Berlin', correct: false },
-      { text: 'London', correct: false },
-      { text: 'Madrid', correct: false }
+      { text: 'Madrid', correct: false },
+      { text: 'London', correct: false }
     ]
   },
   {
-    question: 'What is the capital of Japan?',
+    question: 'What is the currency of Australia?',
     answers: [
-      { text: 'Tokyo', correct: true },
-      { text: 'Beijing', correct: false },
-      { text: 'Seoul', correct: false },
-      { text: 'Bangkok', correct: false }
+      { text: 'Australian Dollar', correct: true },
+      { text: 'Peso', correct: false },
+      { text: 'Rupee', correct: false },
+      { text: 'Franc', correct: false }
     ]
   },
   {
-    question: 'What is the capital of Australia?',
+    question: 'What is the capital of South Africa?',
     answers: [
-      { text: 'Canberra', correct: true },
-      { text: 'Sydney', correct: false },
-      { text: 'Melbourne', correct: false },
-      { text: 'Wellington', correct: false }
+      { text: 'Pretoria', correct: false },
+      { text: 'Johannesburg', correct: false },
+      { text: 'Cape Town', correct: false },
+      { text: 'Bloemfontein', correct: true }
+    ]
+  },
+  {
+    question: 'What is the currency of Canada?',
+    answers: [
+      { text: 'Canadian Dollar', correct: true },
+      { text: 'Pound', correct: false },
+      { text: 'Krone', correct: false },
+      { text: 'Baht', correct: false }
+    ]
+  },
+  {
+    question: 'What is the capital of India?',
+    answers: [
+      { text: 'New Delhi', correct: true },
+      { text: 'Mumbai', correct: false },
+      { text: 'Kolkata', correct: false },
+      { text: 'Bangalore', correct: false }
+    ]
+  },
+  {
+    question: 'What is the currency of Sweden?',
+    answers: [
+      { text: 'Swedish Krona', correct: true },
+      { text: 'Yen', correct: false },
+      { text: 'Dollar', correct: false },
+      { text: 'Euro', correct: false }
+    ]
+  },
+  {
+    question: 'What is the capital of Mexico?',
+    answers: [
+      { text: 'Mexico City', correct: true },
+      { text: 'Cancun', correct: false },
+      { text: 'Guadalajara', correct: false },
+      { text: 'Monterrey', correct: false }
+    ]
+  },
+  {
+    question: 'What is the currency of Russia?',
+    answers: [
+      { text: 'Russian Ruble', correct: true },
+      { text: 'Won', correct: false },
+      { text: 'Zloty', correct: false },
+      { text: 'Shekel', correct: false }
+    ]
+  },
+  {
+    question: 'What is the capital of China?',
+    answers: [
+      { text: 'Beijing', correct: true },
+      { text: 'Shanghai', correct: false },
+      { text: 'Hong Kong', correct: false },
+      { text: 'Guangzhou', correct: false }
+    ]
+  },
+  {
+    question: 'What is the currency of Argentina?',
+    answers: [
+      { text: 'Argentine Peso', correct: true },
+      { text: 'Real', correct: false },
+      { text: 'Pound', correct: false },
+      { text: 'Dollar', correct: false }
+    ]
+  },
+  {
+    question: 'What is the capital of Germany?',
+    answers: [
+      { text: 'Berlin', correct: true },
+      { text: 'Munich', correct: false },
+      { text: 'Hamburg', correct: false },
+      { text: 'Frankfurt', correct: false }
+    ]
+  },
+  {
+    question: 'What is the currency of Italy?',
+    answers: [
+      { text: 'Euro', correct: true },
+      { text: 'Krona', correct: false },
+      { text: 'Lira', correct: false },
+      { text: 'Zloty', correct: false }
+    ]
+  },
+  {
+    question: 'What is the capital of Brazil?',
+    answers: [
+      { text: 'Brasília', correct: true },
+      { text: 'Rio de Janeiro', correct: false },
+      { text: 'Buenos Aires', correct: false },
+      { text: 'Lima', correct: false }
     ]
   }
 ])
