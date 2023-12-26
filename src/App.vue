@@ -5,7 +5,10 @@ import Card from './components/Card.vue'
 <template>
   <div class="container">
     <Card msg="MAPSTER QUIZ" question="What is the capital of United States Virgin Islands?" />
-    <p class="copyright">Created by Melvin Tivane - DevChallenges.io</p>
+    <p class="copyright">
+      Created by <a href="https://github.com/melvintivane/" target="_blank">Melvin Tivane</a> -
+      DevChallenges.io
+    </p>
   </div>
 </template>
 
