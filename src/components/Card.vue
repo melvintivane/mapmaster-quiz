@@ -231,7 +231,7 @@ onMounted(() => {
 
 <template>
   <div class="card__container">
-    <img src="@/assets/adventure-icon.svg" alt="Adventure Icon" class="img" />
+    <img src="@/assets/adventure-icon.svg" alt="Adventure Icon" class="top__img" />
     <h1 class="card__title">{{ msg }}</h1>
 
     <div v-show="!isGameEnded" class="card__wrapper">
@@ -255,7 +255,9 @@ onMounted(() => {
       <img src="@/assets/congrats-icon.svg" alt="Congrats Icon" class="congrats__img" />
       <div>
         <h1 class="results">Results</h1>
-        <p>You got {{ countStore.count }} correct answers.</p>
+        <p>
+          You got <span>{{ countStore.count }}</span> correct answers.
+        </p>
       </div>
       <button class="btn-try__again" @click="restartGame">Try Again</button>
     </div>
@@ -267,7 +269,7 @@ onMounted(() => {
   position: relative;
 }
 
-.img {
+.top__img {
   width: 110px;
   position: absolute;
   right: 0;
@@ -315,6 +317,12 @@ p {
   font-weight: 400;
   text-align: center;
   color: var(--color-primary);
+}
+
+p > span {
+  color: var(--color-answer-right);
+  font-weight: 700;
+  font-size: 24px;
 }
 
 .card__question {
