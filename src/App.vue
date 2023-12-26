@@ -18,6 +18,10 @@ import Card from './components/Card.vue'
   justify-content: center;
 }
 
+p {
+  font-size: 10px;
+}
+
 a {
   color: var(--color-white);
 }
