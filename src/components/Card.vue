@@ -262,36 +262,36 @@ onMounted(() => {
 }
 
 .img {
+  width: 110px;
   position: absolute;
   right: 0;
-  top: -1.3rem;
 }
 
 .card__title {
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
 .card__wrapper {
   display: flex;
   flex-direction: column;
-  width: 28rem;
+  width: 22rem;
   background-color: #fff;
-  border-radius: 18px;
-  padding: 20px 35px;
+  border-radius: 10px;
+  padding: 18px 25px;
 }
 
 .endgame__wrapper {
   display: flex;
   flex-direction: column;
-  width: 31rem;
+  width: 22rem;
   background-color: #fff;
-  border-radius: 18px;
-  padding: 20px 35px;
+  border-radius: 10px;
+  padding: 18px 25px;
 }
 
 .temp {
-  font-size: 4.8rem;
+  font-size: 4.4rem;
   font-weight: 700;
   text-align: center;
   color: var(--color-primary);
@@ -305,23 +305,24 @@ p {
 }
 
 .card__question {
-  font-size: 24px;
+  font-size: 18px;
   color: var(--color-title-question);
   font-weight: 700;
-  margin: 2.2rem 0rem;
+  margin: 1.5rem 0rem;
 }
 
 .card__button {
   width: 100%;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.1rem;
   display: flex;
   align-items: center;
   background-color: var(--color-white);
   color: var(--color-answer-text);
-  border: 2px solid var(--color-answer-border);
-  border-radius: 18px;
-  padding: 1.2rem;
-  font-size: 16px;
+  border: 1px solid var(--color-answer-border);
+  border-radius: 10px;
+  padding: 0.7rem;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
 }
 
@@ -331,13 +332,13 @@ p {
   border-color: transparent;
 }
 
-.answer__correct:hover {
+.answer__correct {
   color: var(--color-white);
   background-color: #60bf88;
   border-color: transparent;
 }
 
-.answer__wrong:hover {
+.answer__wrong {
   color: var(--color-white);
   background-color: #ea8282;
   border-color: transparent;
@@ -349,7 +350,7 @@ p {
   font-weight: 700;
   width: 11.6rem;
   padding: 22px 30px;
-  border-radius: 15px;
+  border-radius: 10px;
   align-items: flex-end;
   border-color: transparent;
   cursor: pointer;
@@ -358,7 +359,7 @@ p {
 .btn-try__again {
   width: 11.6rem;
   padding: 22px 30px;
-  border-radius: 15px;
+  border-radius: 10px;
   background-color: var(--color-white);
   color: var(--color-primary);
   border: 2px solid var(--color-primary);
