@@ -230,11 +230,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="card__container">
+  <div v-show="!isGameEnded" class="card__container">
     <img src="@/assets/adventure-icon.svg" alt="Adventure Icon" class="top__img" />
     <h1 class="card__title">{{ msg }}</h1>
 
-    <div v-show="!isGameEnded" class="card__wrapper">
+    <div class="card__wrapper">
       <h3 class="card__question">{{ currentQuestion.question }}</h3>
       <button
         type="button"
@@ -250,8 +250,9 @@ onMounted(() => {
       </button>
       <button v-if="showNextButton" @click="nextQuestion" class="btn-next">Next</button>
     </div>
-
-    <div v-show="isGameEnded" class="endgame__wrapper">
+  </div>
+  <div v-show="isGameEnded" class="card__container">
+    <div class="endgame__wrapper">
       <img src="@/assets/congrats-icon.svg" alt="Congrats Icon" class="congrats__img" />
       <div>
         <h1 class="results">Results</h1>
