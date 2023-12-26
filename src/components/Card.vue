@@ -252,9 +252,11 @@ onMounted(() => {
     </div>
 
     <div v-show="isGameEnded" class="endgame__wrapper">
-      <img src="@/assets/congrats-icon.svg" alt="Congrats Icon" class="congrats" />
-      <h1 class="temp">Results</h1>
-      <p>You got {{ countStore.count }} correct answers.</p>
+      <img src="@/assets/congrats-icon.svg" alt="Congrats Icon" class="congrats__img" />
+      <div>
+        <h1 class="results">Results</h1>
+        <p>You got {{ countStore.count }} correct answers.</p>
+      </div>
       <button class="btn-try__again" @click="restartGame">Try Again</button>
     </div>
   </div>
@@ -269,6 +271,10 @@ onMounted(() => {
   width: 110px;
   position: absolute;
   right: 0;
+}
+
+.congrats__img {
+  width: 200px;
 }
 
 .card__title {
@@ -286,23 +292,26 @@ onMounted(() => {
 }
 
 .endgame__wrapper {
-  display: flex;
-  flex-direction: column;
   width: 22rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 70px;
   background-color: #fff;
   border-radius: 10px;
-  padding: 18px 25px;
+  padding: 25px;
 }
 
-.temp {
-  font-size: 4.4rem;
+.results {
+  font-size: 34px;
+  margin-bottom: 10px;
   font-weight: 700;
   text-align: center;
   color: var(--color-primary);
 }
 
 p {
-  font-size: 1.8rem;
+  font-size: 14px;
   font-weight: 400;
   text-align: center;
   color: var(--color-primary);
@@ -352,8 +361,8 @@ p {
   background-color: var(--color-button);
   color: var(--color-white);
   font-weight: 700;
-  width: 11.6rem;
-  padding: 22px 30px;
+  width: 9rem;
+  padding: 13px 30px;
   border-radius: 10px;
   align-items: flex-end;
   border-color: transparent;
@@ -362,13 +371,13 @@ p {
 
 .btn-try__again {
   width: 11.6rem;
-  padding: 22px 30px;
+  padding: 13px 30px;
   border-radius: 10px;
   background-color: var(--color-white);
   color: var(--color-primary);
-  border: 2px solid var(--color-primary);
-  width: 20rem;
-  font-size: 20px;
+  border: 1px solid var(--color-primary);
+  width: 9rem;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
 }
