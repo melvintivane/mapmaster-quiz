@@ -8,6 +8,15 @@ defineProps<{
   question: string
 }>()
 
+const isGameEnded = ref(false)
+const showNextButton = ref(false)
+const currentQuestionIndex = ref(0)
+const currentQuestion = computed(() => questions.value[currentQuestionIndex.value])
+const countStore = useCounterStore()
+const selectedAnswer = ref(null)
+
+const countriesData = ref(null)
+
 const questions = ref([
   {
     question: 'What is the capital of Brazil?',
@@ -145,15 +154,6 @@ const questions = ref([
     ]
   }
 ])
-
-const isGameEnded = ref(false)
-const showNextButton = ref(false)
-const currentQuestionIndex = ref(0)
-const currentQuestion = computed(() => questions.value[currentQuestionIndex.value])
-const countStore = useCounterStore()
-const selectedAnswer = ref(null)
-
-const countriesData = ref(null)
 
 const fetchData = async () => {
   try {
