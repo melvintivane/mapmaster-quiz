@@ -15,7 +15,7 @@ const currentQuestion = computed(() => questions.value[currentQuestionIndex.valu
 const countStore = useCounterStore()
 const selectedAnswer = ref(null)
 
-const countriesData = ref(null)
+const countriesData = ref({})
 
 const questions = ref([
   {
