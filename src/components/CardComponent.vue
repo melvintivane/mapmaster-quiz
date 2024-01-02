@@ -1,3 +1,39 @@
+<template>
+  <div v-show="!isGameEnded" class="card__container">
+    <img src="@/assets/adventure-icon.svg" alt="Adventure Icon" class="top__img" />
+    <h1 class="card__title">{{ msg }}</h1>
+
+    <div class="card__wrapper">
+      <h3 class="card__question">{{ currentQuestion.question }}</h3>
+      <button
+        type="button"
+        value=""
+        class="card__button variant"
+        :class="{ answer__correct: answer === selectedAnswer }"
+        v-for="(answer, index) in currentQuestion.answers"
+        @click="selectAnswer(answer)"
+        :key="index"
+      >
+        <span class="answer__option">{{ String.fromCharCode(65 + index) }}</span>
+        {{ answer.text }}
+      </button>
+      <button v-if="showNextButton" @click="nextQuestion" class="btn-next">Next</button>
+    </div>
+  </div>
+  <div v-show="isGameEnded" class="card__container">
+    <div class="endgame__wrapper">
+      <img src="@/assets/congrats-icon.svg" alt="Congrats Icon" class="congrats__img" />
+      <div>
+        <h1 class="results">Results</h1>
+        <p>
+          You got <span>{{ countStore.count }}</span> correct answers.
+        </p>
+      </div>
+      <button class="btn-try__again" @click="restartGame">Try Again</button>
+    </div>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { useCounterStore } from '@/stores/counter'
 import axios from 'axios'
@@ -123,42 +159,6 @@ onMounted(async () => {
   shuffleArray(questions.value)
 })
 </script>
-
-<template>
-  <div v-show="!isGameEnded" class="card__container">
-    <img src="@/assets/adventure-icon.svg" alt="Adventure Icon" class="top__img" />
-    <h1 class="card__title">{{ msg }}</h1>
-
-    <div class="card__wrapper">
-      <h3 class="card__question">{{ currentQuestion.question }}</h3>
-      <button
-        type="button"
-        value=""
-        class="card__button variant"
-        :class="{ answer__correct: answer === selectedAnswer }"
-        v-for="(answer, index) in currentQuestion.answers"
-        @click="selectAnswer(answer)"
-        :key="index"
-      >
-        <span class="answer__option">{{ String.fromCharCode(65 + index) }}</span>
-        {{ answer.text }}
-      </button>
-      <button v-if="showNextButton" @click="nextQuestion" class="btn-next">Next</button>
-    </div>
-  </div>
-  <div v-show="isGameEnded" class="card__container">
-    <div class="endgame__wrapper">
-      <img src="@/assets/congrats-icon.svg" alt="Congrats Icon" class="congrats__img" />
-      <div>
-        <h1 class="results">Results</h1>
-        <p>
-          You got <span>{{ countStore.count }}</span> correct answers.
-        </p>
-      </div>
-      <button class="btn-try__again" @click="restartGame">Try Again</button>
-    </div>
-  </div>
-</template>
 
 <style scoped>
 .card__container {
