@@ -56,6 +56,24 @@ const shuffleArray = (array: any[]) => {
   }
 }
 
+const getRandomAnswers = (countries: any[], correctCapital: string, count: number) => {
+  const randomAnswers: any[] = []
+
+  for (let i = 0; i < count; i++) {
+    let randomIndex = Math.floor(Math.random() * countries.length)
+    while (
+      countries[randomIndex].capital[0] === correctCapital ||
+      randomAnswers.some((answer) => answer.text === countries[randomIndex].capital[0])
+    ) {
+      randomIndex = Math.floor(Math.random() * countries.length)
+    }
+
+    randomAnswers.push({ text: countries[randomIndex].capital[0], correct: false })
+  }
+
+  return randomAnswers
+}
+
 const selectAnswer = (answer: any) => {
   const correct = answer.correct
 
