@@ -1,10 +1,7 @@
-export default {
-  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-  darkMode: false, // or 'media' or 'class'
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ['./src/components/**/*.{vue,js}'],
   theme: {
-    extend: {}
-  },
-  variants: {
     extend: {}
   },
   plugins: []
