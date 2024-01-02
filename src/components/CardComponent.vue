@@ -169,6 +169,7 @@ onMounted(() => {
 .top__img {
   width: 110px;
   position: absolute;
+  top: -20px;
   right: 0;
 }
 
@@ -254,6 +255,10 @@ p > span {
   color: var(--color-white);
   background-color: #60bf88;
   border-color: transparent;
+}
+
+.answer__correct:hover {
+  background-color: #60bf88;
 }
 
 .answer__wrong {
