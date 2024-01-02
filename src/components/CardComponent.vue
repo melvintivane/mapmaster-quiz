@@ -8,22 +8,40 @@ defineProps<{
   question: string
 }>()
 
-const questions = ref([{}])
-
 const isGameEnded = ref(false)
 const showNextButton = ref(false)
 const currentQuestionIndex = ref(0)
-const currentQuestion = computed(() => questions.value[currentQuestionIndex.value])
+const currentQuestion: any = computed(() => questions.value[currentQuestionIndex.value])
 const countStore = useCounterStore()
 const selectedAnswer = ref(null)
 
-const countriesData = ref(null)
+const questions = ref([{}])
 
 const fetchData = async () => {
   try {
-    const apiUrl = 'https://restcountries.com/v3.1/independent?status=true&fields=languages,capital'
+    const apiUrl = 'https://restcountries.com/v3.1/all?fields=name,capital,flag'
     const response = await axios.get(apiUrl)
-    countriesData.value = response.data
+    const countries = response.data
+
+    questions.value = countries.map((country: any) => {
+      const correctAnswer = { text: country.capital[0], correct: true }
+      const randomAnswers = [
+        { text: 'Random Answer 1', correct: false },
+        { text: 'Random Answer 2', correct: false },
+        { text: 'Random Answer 3', correct: false }
+      ]
+
+      const answers = [correctAnswer, ...randomAnswers]
+
+      shuffleArray(answers)
+
+      return {
+        question: `What is the capital of ${country.name.common}?`,
+        answers: answers
+      }
+    })
+
+    shuffleArray(questions.value)
   } catch (error) {
     console.error('Erro ao buscar dados da API:', error)
   }
