@@ -118,10 +118,9 @@ const restartGame = () => {
   shuffleArray(questions.value)
 }
 
-onMounted(() => {
-  fetchData()
+onMounted(async () => {
+  await fetchData()
   shuffleArray(questions.value)
-  console.log(countriesData)
 })
 </script>
 
