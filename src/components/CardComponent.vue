@@ -25,11 +25,7 @@ const fetchData = async () => {
 
     questions.value = countries.map((country: any) => {
       const correctAnswer = { text: country.capital[0], correct: true }
-      const randomAnswers = [
-        { text: 'Random Answer 1', correct: false },
-        { text: 'Random Answer 2', correct: false },
-        { text: 'Random Answer 3', correct: false }
-      ]
+      const randomAnswers = getRandomAnswers(countries, country.capital[0], 3)
 
       const answers = [correctAnswer, ...randomAnswers]
 
