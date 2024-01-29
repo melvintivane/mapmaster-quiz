@@ -4,7 +4,9 @@ import Card from './components/CardComponent.vue'
 
 <template>
   <div class="container">
-    <Card msg="MAPSTER QUIZ" question="What is the capital of United States Virgin Islands?" />
+    <Transition>
+      <Card msg="MAPSTER QUIZ" question="What is the capital of United States Virgin Islands?" />
+    </Transition>
     <p class="copyright">
       Created by <a href="https://github.com/melvintivane/" target="_blank">Melvin Tivane</a> -
       DevChallenges.io
@@ -29,5 +31,23 @@ a {
   font-weight: 300;
   position: absolute;
   bottom: 1rem;
+}
+
+.v-enter,
+.v-leave-to {
+  opacity: 0;
+}
+
+.v-enter {
+  transform: translate3d(0, -20px, 0);
+}
+
+.v-leave-to {
+  transform: translate3d(0, 20px, 0);
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.3s;
 }
 </style>

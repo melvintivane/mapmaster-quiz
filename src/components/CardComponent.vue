@@ -1,37 +1,39 @@
 <template>
-  <div v-if="!isGameEnded" class="card__container">
-    <img src="@/assets/adventure-icon.svg" alt="Adventure Icon" class="top__img" />
-    <h1 class="card__title">{{ msg }}</h1>
+  <transition mode="out-in">
+    <div v-if="!isGameEnded" class="card__container">
+      <img src="@/assets/adventure-icon.svg" alt="Adventure Icon" class="top__img" />
+      <h1 class="card__title">{{ msg }}</h1>
 
-    <div class="card__wrapper">
-      <h3 class="card__question">{{ currentQuestion.question }}</h3>
-      <button
-        type="button"
-        value=""
-        class="card__button variant"
-        :class="{ answer__correct: answer === selectedAnswer }"
-        v-for="(answer, index) in currentQuestion.answers"
-        @click="selectAnswer(answer)"
-        :key="index"
-      >
-        <span class="answer__option">{{ String.fromCharCode(65 + index) }}</span>
-        {{ answer.text }}
-      </button>
-      <button v-if="showNextButton" @click="nextQuestion" class="btn-next">Next</button>
-    </div>
-  </div>
-  <div v-else class="card__container">
-    <div class="endgame__wrapper">
-      <img src="@/assets/congrats-icon.svg" alt="Congrats Icon" class="congrats__img" />
-      <div>
-        <h1 class="results">Results</h1>
-        <p>
-          You got <span>{{ countStore.count }}</span> correct answers.
-        </p>
+      <div class="card__wrapper">
+        <h3 class="card__question">{{ currentQuestion.question }}</h3>
+        <button
+          type="button"
+          value=""
+          class="card__button variant"
+          :class="{ answer__correct: answer === selectedAnswer }"
+          v-for="(answer, index) in currentQuestion.answers"
+          @click="selectAnswer(answer)"
+          :key="index"
+        >
+          <span class="answer__option">{{ String.fromCharCode(65 + index) }}</span>
+          {{ answer.text }}
+        </button>
+        <button v-if="showNextButton" @click="nextQuestion" class="btn-next">Next</button>
       </div>
-      <button class="btn-try__again" @click="restartGame">Try Again</button>
     </div>
-  </div>
+    <div v-else class="card__container">
+      <div class="endgame__wrapper">
+        <img src="@/assets/congrats-icon.svg" alt="Congrats Icon" class="congrats__img" />
+        <div>
+          <h1 class="results">Results</h1>
+          <p>
+            You got <span>{{ countStore.count }}</span> correct answers.
+          </p>
+        </div>
+        <button class="btn-try__again" @click="restartGame">Try Again</button>
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script setup lang="ts">
@@ -302,5 +304,23 @@ p > span {
   font-size: 1.4rem;
   font-weight: 500;
   margin-right: 4rem;
+}
+
+.v-enter,
+.v-leave-to {
+  opacity: 0;
+}
+
+.v-enter {
+  transform: translate3d(0, -20px, 0);
+}
+
+.v-leave-to {
+  transform: translate3d(0, 20px, 0);
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.3s;
 }
 </style>
