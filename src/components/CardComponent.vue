@@ -1,5 +1,5 @@
 <template>
-  <div v-show="!isGameEnded" class="card__container">
+  <div v-if="!isGameEnded" class="card__container">
     <img src="@/assets/adventure-icon.svg" alt="Adventure Icon" class="top__img" />
     <h1 class="card__title">{{ msg }}</h1>
 
@@ -20,7 +20,7 @@
       <button v-if="showNextButton" @click="nextQuestion" class="btn-next">Next</button>
     </div>
   </div>
-  <div v-show="isGameEnded" class="card__container">
+  <div v-else class="card__container">
     <div class="endgame__wrapper">
       <img src="@/assets/congrats-icon.svg" alt="Congrats Icon" class="congrats__img" />
       <div>
@@ -58,6 +58,7 @@ const fetchData = async () => {
     const apiUrl = 'https://restcountries.com/v3.1/all?fields=name,capital,flag'
     const response = await axios.get(apiUrl)
     const countries = response.data
+    console.log(response.data)
 
     questions.value = countries.map((country: any) => {
       const correctAnswer = { text: country.capital[0], correct: true }
@@ -261,6 +262,12 @@ p > span {
 }
 
 .answer__wrong {
+  color: var(--color-white);
+  background-color: #ea8282;
+  border-color: transparent;
+}
+
+.answer__wrong:hover {
   color: var(--color-white);
   background-color: #ea8282;
   border-color: transparent;
