@@ -39,7 +39,6 @@
 <script setup lang="ts">
 import { useCounterStore } from '@/stores/counter'
 import { useCountriesStore } from '@/stores/countries'
-import axios from 'axios'
 import { ref, onMounted, computed } from 'vue'
 
 defineProps<{
