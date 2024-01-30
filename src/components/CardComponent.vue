@@ -38,6 +38,7 @@
 
 <script setup lang="ts">
 import { useCounterStore } from '@/stores/counter'
+import { useCountriesStore } from '@/stores/countries'
 import axios from 'axios'
 import { ref, onMounted, computed } from 'vue'
 
@@ -51,35 +52,29 @@ const showNextButton = ref(false)
 const currentQuestionIndex = ref(0)
 const currentQuestion: any = computed(() => questions.value[currentQuestionIndex.value])
 const countStore = useCounterStore()
+const countriesStore = useCountriesStore()
 const selectedAnswer = ref(null)
 
 const questions = ref([{}])
 
-const fetchData = async () => {
-  try {
-    const apiUrl = 'https://restcountries.com/v3.1/all?fields=name,capital,flag'
-    const response = await axios.get(apiUrl)
-    const countries = response.data
-    console.log(response.data)
+const loadData = async () => {
+  const countries = countriesStore.$state.countries
 
-    questions.value = countries.map((country: any) => {
-      const correctAnswer = { text: country.capital[0], correct: true }
-      const randomAnswers = getRandomAnswers(countries, country.capital[0], 3)
+  questions.value = countries.map((country: any) => {
+    const correctAnswer = { text: country.capital[0], correct: true }
+    const randomAnswers = getRandomAnswers(countries, country.capital[0], 3)
 
-      const answers = [correctAnswer, ...randomAnswers]
+    const answers = [correctAnswer, ...randomAnswers]
 
-      shuffleArray(answers)
+    shuffleArray(answers)
 
-      return {
-        question: `What is the capital of ${country.name.common}?`,
-        answers: answers
-      }
-    })
+    return {
+      question: `What is the capital of ${country.name.common}?`,
+      answers: answers
+    }
+  })
 
-    shuffleArray(questions.value)
-  } catch (error) {
-    console.error('Erro ao buscar dados da API:', error)
-  }
+  shuffleArray(questions.value)
 }
 
 const shuffleArray = (array: any[]) => {
@@ -91,13 +86,13 @@ const shuffleArray = (array: any[]) => {
   }
 }
 
-const getRandomAnswers = (countries: any[], correctCapital: string, count: number) => {
+const getRandomAnswers = (countries: any[], capital: string, count: number) => {
   const randomAnswers: any[] = []
 
   for (let i = 0; i < count; i++) {
     let randomIndex = Math.floor(Math.random() * countries.length)
     while (
-      countries[randomIndex].capital[0] === correctCapital ||
+      countries[randomIndex].capital[0] === capital ||
       randomAnswers.some((answer) => answer.text === countries[randomIndex].capital[0])
     ) {
       randomIndex = Math.floor(Math.random() * countries.length)
@@ -157,8 +152,13 @@ const restartGame = () => {
   shuffleArray(questions.value)
 }
 
+const fetchData = async () => {
+  await countriesStore.fetchCountries()
+  await loadData()
+}
+
 onMounted(async () => {
-  await fetchData()
+  fetchData()
   shuffleArray(questions.value)
 })
 </script>
