@@ -1,36 +1,55 @@
 <template>
   <transition mode="out-in">
-    <div v-if="!isGameEnded" class="card__container">
-      <img src="@/assets/adventure-icon.svg" alt="Adventure Icon" class="top__img" />
-      <h1 class="card__title">{{ msg }}</h1>
+    <div v-if="!isGameEnded" class="relative">
+      <img
+        src="@/assets/adventure-icon.svg"
+        alt="Adventure Icon"
+        class="absolute w-28 -top-3 right-0"
+      />
+      <h1 class="text-2xl font-bold mb-2">{{ msg }}</h1>
 
-      <div class="card__wrapper">
-        <h3 class="card__question">{{ currentQuestion.question }}</h3>
+      <div class="flex flex-col w-96 bg-white rounded-xl py-5 px-6">
+        <h3 class="text-question-default text-lg font-bold my-6">{{ currentQuestion.question }}</h3>
         <button
           type="button"
           value=""
-          class="card__button variant"
-          :class="{ answer__correct: answer === selectedAnswer }"
+          class="hover:text-white hover:bg-button-default hover:border-transparent w-full flex items-center mb-5 text-sm font-medium text-text-default border border-border-default bg-white p-3 rounded-xl cursor-pointer"
+          :class="{
+            'text-white border border-right-default !bg-right-default': answer === selectedAnswer
+          }"
           v-for="(answer, index) in currentQuestion.answers"
           @click="selectAnswer(answer)"
           :key="index"
         >
-          <span class="answer__option">{{ String.fromCharCode(65 + index) }}</span>
+          <span class="text-2xl font-medium ml-3 mr-11">{{ String.fromCharCode(65 + index) }}</span>
           {{ answer.text }}
         </button>
-        <button v-if="showNextButton" @click="nextQuestion" class="btn-next">Next</button>
+        <button
+          v-if="showNextButton"
+          class="w-36 py-4 px-8 font-bold text-white bg-button-default rounded-lg border-transparent cursor-pointer"
+          @click="nextQuestion"
+        >
+          Next
+        </button>
       </div>
     </div>
-    <div v-else class="card__container">
-      <div class="endgame__wrapper">
-        <img src="@/assets/congrats-icon.svg" alt="Congrats Icon" class="congrats__img" />
-        <div>
-          <h1 class="results">Results</h1>
-          <p>
-            You got <span>{{ countStore.count }}</span> correct answers.
+    <div v-else class="relative">
+      <div class="flex flex-col items-center gap-16 w-96 bg-white rounded-xl py-10 px-6">
+        <img src="@/assets/congrats-icon.svg" alt="Congrats Icon" class="w-52" />
+        <div class="text-primary-default">
+          <h1 class="text-4xl font-bold text-center mb-3">Results</h1>
+          <p class="text-sm text-center font-normal">
+            You got
+            <span class="font-bold text-2xl text-right-default">{{ countStore.count }}</span>
+            correct answers.
           </p>
         </div>
-        <button class="btn-try__again" @click="restartGame">Try Again</button>
+        <button
+          class="w-44 py-4 px-8 rounded-lg text-sm font-bold bg-white text-primary-default border border-primary-default cursor-pointer"
+          @click="restartGame"
+        >
+          Try Again
+        </button>
       </div>
     </div>
   </transition>
@@ -163,163 +182,9 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.card__container {
-  position: relative;
-}
-
-.top__img {
-  width: 110px;
-  position: absolute;
-  top: -20px;
-  right: 0;
-}
-
-.congrats__img {
-  width: 200px;
-}
-
-.card__title {
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-
-.card__wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 22rem;
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 18px 25px;
-}
-
-.endgame__wrapper {
-  width: 22rem;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 70px;
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 25px;
-}
-
-.results {
-  font-size: 34px;
-  margin-bottom: 10px;
-  font-weight: 700;
-  text-align: center;
-  color: var(--color-primary);
-}
-
-p {
-  font-size: 14px;
-  font-weight: 400;
-  text-align: center;
-  color: var(--color-primary);
-}
-
-p > span {
-  color: var(--color-answer-right);
-  font-weight: 700;
-  font-size: 24px;
-}
-
-.card__question {
-  font-size: 18px;
-  color: var(--color-title-question);
-  font-weight: 700;
-  margin: 1.5rem 0rem;
-}
-
-.card__button {
-  width: 100%;
-  margin-bottom: 1.1rem;
-  display: flex;
-  align-items: center;
-  background-color: var(--color-white);
-  color: var(--color-answer-text);
-  border: 1px solid var(--color-answer-border);
-  border-radius: 10px;
-  padding: 0.7rem;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.variant:hover {
-  color: var(--color-white);
-  background-color: var(--color-button);
-  border-color: transparent;
-}
-
-.answer__correct {
-  color: var(--color-white);
-  background-color: #60bf88;
-  border-color: transparent;
-}
-
-.answer__correct:hover {
-  background-color: #60bf88;
-}
-
 .answer__wrong {
   color: var(--color-white);
-  background-color: #ea8282;
+  background-color: var(--color-answer-wrong);
   border-color: transparent;
-}
-
-.answer__wrong:hover {
-  color: var(--color-white);
-  background-color: #ea8282;
-  border-color: transparent;
-}
-
-.btn-next {
-  background-color: var(--color-button);
-  color: var(--color-white);
-  font-weight: 700;
-  width: 9rem;
-  padding: 13px 30px;
-  border-radius: 10px;
-  align-items: flex-end;
-  border-color: transparent;
-  cursor: pointer;
-}
-
-.btn-try__again {
-  width: 11.6rem;
-  padding: 13px 30px;
-  border-radius: 10px;
-  background-color: var(--color-white);
-  color: var(--color-primary);
-  border: 1px solid var(--color-primary);
-  width: 9rem;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.answer__option {
-  font-size: 1.4rem;
-  font-weight: 500;
-  margin-right: 4rem;
-}
-
-.v-enter,
-.v-leave-to {
-  opacity: 0;
-}
-
-.v-enter {
-  transform: translate3d(0, -20px, 0);
-}
-
-.v-leave-to {
-  transform: translate3d(0, 20px, 0);
-}
-
-.v-enter-active,
-.v-leave-active {
-  transition: all 0.3s;
 }
 </style>
