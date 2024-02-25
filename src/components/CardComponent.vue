@@ -76,7 +76,6 @@ import { ref, onMounted, computed } from "vue";
 // eslint-disable-next-line no-undef
 defineProps<{
   msg: string;
-  question: string;
 }>();
 
 const isGameEnded = ref(false);
@@ -161,26 +160,14 @@ const selectAnswer = (answer: any) => {
   }
 };
 
-const showQuestion = () => {
+const nextQuestion = () => {
+  currentQuestionIndex.value++;
   showNextButton.value = false;
-};
-
-const resetState = () => {
-  showNextButton.value = false;
-};
-
-const setNextQuestion = () => {
-  resetState();
   if (currentQuestionIndex.value < questions.value.length) {
-    showQuestion();
+    showNextButton.value = false;
   } else {
     isGameEnded.value = true;
   }
-};
-
-const nextQuestion = () => {
-  currentQuestionIndex.value++;
-  setNextQuestion();
 };
 
 const restartGame = () => {
