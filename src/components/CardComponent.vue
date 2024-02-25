@@ -9,19 +9,24 @@
       <h1 class="text-2xl font-bold mb-2">{{ msg }}</h1>
 
       <div class="flex flex-col w-96 bg-white rounded-xl py-5 px-6">
-        <h3 class="text-question-default text-lg font-bold my-6">{{ currentQuestion.question }}</h3>
+        <h3 class="text-question-default text-lg font-bold my-6">
+          {{ currentQuestion.question }}
+        </h3>
         <button
           type="button"
           value=""
           class="hover:text-white hover:bg-button-default hover:border-transparent w-full flex items-center mb-5 text-sm font-medium text-text-default border border-border-default bg-white p-3 rounded-xl cursor-pointer"
           :class="{
-            'text-white border border-right-default !bg-right-default': answer === selectedAnswer
+            'text-white border border-right-default !bg-right-default':
+              answer === selectedAnswer,
           }"
           v-for="(answer, index) in currentQuestion.answers"
           @click="selectAnswer(answer)"
           :key="index"
         >
-          <span class="text-2xl font-medium ml-3 mr-11">{{ String.fromCharCode(65 + index) }}</span>
+          <span class="text-2xl font-medium ml-3 mr-11">{{
+            String.fromCharCode(65 + index)
+          }}</span>
           {{ answer.text }}
         </button>
         <button
@@ -34,13 +39,21 @@
       </div>
     </div>
     <div v-else class="relative">
-      <div class="flex flex-col items-center gap-16 w-96 bg-white rounded-xl py-10 px-6">
-        <img src="@/assets/congrats-icon.svg" alt="Congrats Icon" class="w-52" />
+      <div
+        class="flex flex-col items-center gap-16 w-96 bg-white rounded-xl py-10 px-6"
+      >
+        <img
+          src="@/assets/congrats-icon.svg"
+          alt="Congrats Icon"
+          class="w-52"
+        />
         <div class="text-primary-default">
           <h1 class="text-4xl font-bold text-center mb-3">Results</h1>
           <p class="text-sm text-center font-normal">
             You got
-            <span class="font-bold text-2xl text-right-default">{{ countStore.count }}</span>
+            <span class="font-bold text-2xl text-right-default">{{
+              countStore.count
+            }}</span>
             correct answers.
           </p>
         </div>
@@ -56,129 +69,137 @@
 </template>
 
 <script setup lang="ts">
-import { useCounterStore } from '@/stores/counter'
-import { useCountriesStore } from '@/stores/countries'
-import { ref, onMounted, computed } from 'vue'
+import { useCounterStore } from "@/stores/counter";
+import { useCountriesStore } from "@/stores/countries";
+import { ref, onMounted, computed } from "vue";
 
+// eslint-disable-next-line no-undef
 defineProps<{
-  msg: string
-  question: string
-}>()
+  msg: string;
+  question: string;
+}>();
 
-const isGameEnded = ref(false)
-const showNextButton = ref(false)
-const currentQuestionIndex = ref(0)
-const currentQuestion: any = computed(() => questions.value[currentQuestionIndex.value])
-const countStore = useCounterStore()
-const countriesStore = useCountriesStore()
-const selectedAnswer = ref(null)
+const isGameEnded = ref(false);
+const showNextButton = ref(false);
+const currentQuestionIndex = ref(0);
+const currentQuestion: any = computed(
+  () => questions.value[currentQuestionIndex.value]
+);
+const countStore = useCounterStore();
+const countriesStore = useCountriesStore();
+const selectedAnswer = ref(null);
 
-const questions = ref([{}])
+const questions = ref([{}]);
 
 const loadData = async () => {
-  const countries = countriesStore.$state.countries
+  const countries = countriesStore.$state.countries;
 
   questions.value = countries.map((country: any) => {
-    const correctAnswer = { text: country.capital[0], correct: true }
-    const randomAnswers = getRandomAnswers(countries, country.capital[0], 3)
+    const correctAnswer = { text: country.capital[0], correct: true };
+    const randomAnswers = getRandomAnswers(countries, country.capital[0], 3);
 
-    const answers = [correctAnswer, ...randomAnswers]
+    const answers = [correctAnswer, ...randomAnswers];
 
-    shuffleArray(answers)
+    shuffleArray(answers);
 
     return {
       question: `What is the capital of ${country.name.common}?`,
-      answers: answers
-    }
-  })
+      answers: answers,
+    };
+  });
 
-  shuffleArray(questions.value)
-}
+  shuffleArray(questions.value);
+};
 
 const shuffleArray = (array: any[]) => {
   for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    const temp = array[i]
-    array[i] = array[j]
-    array[j] = temp
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
   }
-}
+};
 
 const getRandomAnswers = (countries: any[], capital: string, count: number) => {
-  const randomAnswers: any[] = []
+  const randomAnswers: any[] = [];
 
   for (let i = 0; i < count; i++) {
-    let randomIndex = Math.floor(Math.random() * countries.length)
+    let randomIndex = Math.floor(Math.random() * countries.length);
     while (
       countries[randomIndex].capital[0] === capital ||
-      randomAnswers.some((answer) => answer.text === countries[randomIndex].capital[0])
+      randomAnswers.some(
+        (answer) => answer.text === countries[randomIndex].capital[0]
+      )
     ) {
-      randomIndex = Math.floor(Math.random() * countries.length)
+      randomIndex = Math.floor(Math.random() * countries.length);
     }
 
-    randomAnswers.push({ text: countries[randomIndex].capital[0], correct: false })
+    randomAnswers.push({
+      text: countries[randomIndex].capital[0],
+      correct: false,
+    });
   }
 
-  return randomAnswers
-}
+  return randomAnswers;
+};
 
 const selectAnswer = (answer: any) => {
-  const correct = answer.correct
+  const correct = answer.correct;
 
   if (!correct) {
-    isGameEnded.value = !isGameEnded.value
-    return
+    isGameEnded.value = !isGameEnded.value;
+    return;
   }
 
-  selectedAnswer.value = answer
+  selectedAnswer.value = answer;
 
   if (questions.value.length > currentQuestionIndex.value + 1) {
-    countStore.increment()
-    showNextButton.value = true
+    countStore.increment();
+    showNextButton.value = true;
   } else {
-    isGameEnded.value = true
+    isGameEnded.value = true;
   }
-}
+};
 
 const showQuestion = () => {
-  showNextButton.value = false
-}
+  showNextButton.value = false;
+};
 
 const resetState = () => {
-  showNextButton.value = false
-}
+  showNextButton.value = false;
+};
 
 const setNextQuestion = () => {
-  resetState()
+  resetState();
   if (currentQuestionIndex.value < questions.value.length) {
-    showQuestion()
+    showQuestion();
   } else {
-    isGameEnded.value = true
+    isGameEnded.value = true;
   }
-}
+};
 
 const nextQuestion = () => {
-  currentQuestionIndex.value++
-  setNextQuestion()
-}
+  currentQuestionIndex.value++;
+  setNextQuestion();
+};
 
 const restartGame = () => {
-  countStore.reset()
-  isGameEnded.value = false
-  showNextButton.value = false
-  currentQuestionIndex.value = 0
-  shuffleArray(questions.value)
-}
+  countStore.reset();
+  isGameEnded.value = false;
+  showNextButton.value = false;
+  currentQuestionIndex.value = 0;
+  shuffleArray(questions.value);
+};
 
 const fetchData = async () => {
-  await countriesStore.fetchCountries()
-  await loadData()
-}
+  await countriesStore.fetchCountries();
+  await loadData();
+};
 
 onMounted(async () => {
-  fetchData()
-  shuffleArray(questions.value)
-})
+  fetchData();
+  shuffleArray(questions.value);
+});
 </script>
 
 <style scoped>
