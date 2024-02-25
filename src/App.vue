@@ -5,10 +5,7 @@ import Card from "./components/CardComponent.vue";
 <template>
   <div class="flex justify-center">
     <Transition>
-      <Card
-        msg="MAPSTER QUIZ"
-        question="What is the capital of United States Virgin Islands?"
-      />
+      <Card msg="MAPSTER QUIZ" />
     </Transition>
     <p class="absolute font-light bottom-4 text-[10px]">
       Created by
