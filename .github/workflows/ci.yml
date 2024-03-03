@@ -31,6 +31,10 @@ jobs:
       - name: Push Docker image to GitHub Container Registry
         run: docker push ghcr.io/${{ github.repository_owner }}/mapmaster-quiz:latest
 
+      - name: Install Render CLI
+        run: |
+          curl -sSL https://render.com/install.sh | sh
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
