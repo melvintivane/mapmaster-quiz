@@ -33,7 +33,7 @@ jobs:
 
       - name: Install Render CLI
         run: |
-          curl -sSL https://render.com/install.sh | sh
+          curl -sSL https://render.com/install.sh -o install.sh | sh install.sh
 
   deploy:
     runs-on: ubuntu-latest
