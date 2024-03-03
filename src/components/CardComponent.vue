@@ -1,6 +1,7 @@
 <template>
   <transition mode="out-in">
-    <div v-if="!isGameEnded" class="relative">
+    <Loading v-if="isGameEnded" />
+    <div v-else-if="!isGameEnded" class="relative">
       <img
         src="@/assets/adventure-icon.svg"
         alt="Adventure Icon"
@@ -69,9 +70,10 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted, computed } from "vue";
 import { useCounterStore } from "@/stores/counter";
 import { useCountriesStore } from "@/stores/countries";
-import { ref, onMounted, computed } from "vue";
+import Loading from "./Loading.vue";
 
 // eslint-disable-next-line no-undef
 defineProps<{
