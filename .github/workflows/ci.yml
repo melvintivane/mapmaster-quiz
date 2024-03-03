@@ -23,7 +23,7 @@ jobs:
         run: npm install
 
       - name: Build Docker image
-        run: docker build -t mapmaster-quiz .
+        run: docker build . --tag ghcr.io/${{ github.repository_owner }}/mapmaster-quiz:latest
 
       - name: Log in to GitHub Container Registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
